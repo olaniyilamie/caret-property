@@ -1,0 +1,94 @@
+				div{ 
+					min-height: 30px
+				}
+				#bar{
+					background-color: black;
+				}
+
+				#bgpic{
+					background-image:url(image/image3.jpeg); 
+					background-size: contain;
+					background-repeat: no-repeat;
+					/*min-height: 600px;				*/
+				}
+				#divwrite{ 
+					background-color: rgba(0,0,0,0.4);
+					/*min-height: 600px;*/
+
+				}
+				#b4write {
+				    margin-top: 14em;
+				}
+				.icons{
+					font-size: 30px;
+				}
+				.textcol{
+					color: white;
+				}
+				.dropbg{
+					background-color: black;
+
+				}
+				#signup{
+					display: none; border: 1px solid white; 
+					background-image: url(image/image9.jpeg);
+					background-size: cover;
+					background-repeat: no-repeat;
+					
+				}	
+				.line{
+					background-color: white !important;
+					width: 100%;
+					margin-left: 0px;
+					margin-right: 0px;
+				}	
+				.red{
+					color: red;
+				}
+				.adborder{
+					border:2px solid black;
+				}
+				.shortline{
+					border: 5px;
+					width:10px;
+					height: 5px;
+					color: white;
+				}
+				#profilemag{
+					height: 350px;
+					background-image: url(image/new1.jfif);
+					background-repeat: no-repeat;
+					background-size: 100%;
+				}
+				#profilewrite{
+					background-color: rgba(0,0,0,0.4);
+					height: 350px;	
+				}
+				.font{
+					font-size: 14px;
+				}
+
+
+				#search::placeholder{
+					color: white !important;
+					font-weight: 600;
+					text-align: center;
+				
+				}
+
+				#search1::select{
+					color: white !important;
+					font-weight: 600;
+					text-align: center;
+				
+				}
+				
+
+				@media all and (min-width:320px) and (max-width:425px){
+				#b4write {
+				    margin-top: 0em;
+				}
+				#ppty{
+					font-size: 0.5em;
+				}
+				}
