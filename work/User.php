@@ -1,8 +1,16 @@
 <?php 
+//die(print_r($_SERVER));
 	class User{
 		public $conn;
+		public $url ;
 
 	function __construct(){
+		if(isset($_SERVER['HTTP_REFERER'])){
+			$this->url= htmlspecialchars($_SERVER['HTTP_REFERER']);
+		}else{
+			$this->url='Location:index.php';
+		}
+		
 		$this->conn= new mysqli('localhost','root','','caret_ppty');
 		if ($this->conn->connect_error) {
 			die("There is a connection error, contact the web assistant center !");
@@ -12,7 +20,9 @@
 	function signup($form){
 		$acctype=$form['company'];
 		$name=$form['name'];
+		$namee=$form['name1'];
 		$address=$form['address'];
+		$addresss=$form['address1'];
 		$reg=$form['reg'];
 		$phoneno=$form['phoneno'];
 		$username=$form['username'];
@@ -32,7 +42,7 @@
 			}
 
 			if ($acctype=='individual') {
-				$query="INSERT INTO individual SET name='$name',address='$address',phonenumber='$phoneno',username='$username',password='$password',email='$email'";
+				$query="INSERT INTO individual SET name='$namee',address='$addresss',phonenumber='$phoneno',username='$username',password='$password',email='$email'";
 			$res=$this->conn->query($query);
 			if ($this->conn->error) {
 				header("Location:signup.php?msg=Please try again! Email or Username already in use");
@@ -44,44 +54,6 @@
 			return $chk;
 			}
 
-			if ($acctype=='prof') {
-				$query="INSERT INTO professional SET name='$name',address='$address',phonenumber='$phoneno',username='$username',password='$password',email='$email'";
-			$res=$this->conn->query($query);
-			if ($this->conn->error) {
-				header("Location:signup.php?msg=Please try again! Email or Username already in use");
-			}
-			$chk=$this->conn->insert_id;
-			if ($chk>0) {
-				return $chk;
-			}
-			return $chk;
-			}
-
-			if ($acctype=='nysc'||$acctype=='placement') {
-				$query="INSERT INTO user_stu SET name='$name',address='$address',phonenumber='$phoneno',username='$username',password='$password',email='$email'";
-			$res=$this->conn->query($query);
-			if ($this->conn->error) {
-				header("Location:signup.php?msg=Please try again! Email or Username already in use");
-			}
-			$chk=$this->conn->insert_id;
-			if ($chk>0) {
-				return $chk;
-			}
-			return $chk;
-			}
-
-			if ($acctype=='client') {
-				$query="INSERT INTO client SET name='$name',address='$address',phonenumber='$phoneno',username='$username',password='$password',email='$email'";
-			$res=$this->conn->query($query);
-			if ($this->conn->error) {
-				header("Location:signup.php?msg=Please try again! Email or Username already in use");
-			}
-			$chk=$this->conn->insert_id;
-			if ($chk>0) {
-				return $chk;
-			}
-			return $chk;
-			}
 		}
 
 
@@ -93,8 +65,9 @@
 			$query="SELECT * FROM realestatecompany WHERE username='$username' AND password='$password'";
 			$res=$this->conn->query($query);
 			if ($this->conn->error) {
-				die("Encounter error while saving your information, please try again !");
+				die( "<h3 style=\"color:red;text-align:center;\">Encounter error while saving your information, please try again !</h3><p style=\"text-align:center;\"><a href=\"$this->url\">Go Back</a></p>");
 			}
+
 			$all=['chk','cut'];
 			$all['chk']=$res->num_rows;
 			if ($all['chk']>0) {
@@ -108,52 +81,7 @@
 				$query="SELECT * FROM individual WHERE username='$username' AND password='$password'";
 			$res=$this->conn->query($query);
 			if ($this->conn->error) {
-				die("Encounter error while saving your information, please try again !");
-			}
-			$all=['chk','cut'];
-			$all['chk']=$res->num_rows;
-			if ($all['chk']>0) {
-				$all['cut']=$res->fetch_assoc();
-				return $all;
-			}
-			return $all['chk'];
-			}
-
-			if ($acctype=='prof') {
-				$query="SELECT * FROM professional WHERE username='$username' AND password='$password'";
-			$res=$this->conn->query($query);
-			if ($this->conn->error) {
-				die("Encounter error while saving your information, please try again !");
-			}
-			$all=['chk','cut'];
-			$all['chk']=$res->num_rows;
-			if ($all['chk']>0) {
-				$all['cut']=$res->fetch_assoc();
-				return $all;
-			}
-			return $all['chk'];
-			}
-
-			if ($acctype=='nysc'|| $acctype=='placement') {
-				$query="SELECT * FROM user_stu WHERE username='$username' AND password='$password'";
-			$res=$this->conn->query($query);
-			if ($this->conn->error) {
-				die("Encounter error while saving your information, please try again !");
-			}
-			$all=['chk','cut'];
-			$all['chk']=$res->num_rows;
-			if ($all['chk']>0) {
-				$all['cut']=$res->fetch_assoc();
-				return $all;
-			}
-			return $all['chk'];
-			}
-
-			if ($acctype=='client') {
-				$query="SELECT * FROM client WHERE username='$username' AND password='$password'";
-			$res=$this->conn->query($query);
-			if ($this->conn->error) {
-				die("Encounter error while saving your information, please try again !");
+				die( "<h3 style=\"color:red;text-align:center;\">Encounter error while saving your information, please try again !</h3><p style=\"text-align:center;\"><a href=\"$this->url\">Go Back</a></p>");
 			}
 			$all=['chk','cut'];
 			$all['chk']=$res->num_rows;
@@ -170,7 +98,7 @@
 			session_destroy();
 			header("Location:index.php");
 		}
-
+		
 		function uploadListing($picarray,$id,$acctype,$form){
 		$catergory=$form['category'];
 		$propertype=$form['propertype'];
@@ -178,9 +106,11 @@
 		$price=$form['price'];
 		$address=$form['address'];
 		$detail=strip_tags(addslashes(trim($form['detail'])));
-		
+
 		
 		$pictotal=count($picarray['image']['name']);
+		
+		
 		for ($i=0; $i < $pictotal ; $i++) { 
 			$type=$picarray['image']['type'][$i];
 			$tmp=$picarray['image']['tmp_name'][$i];
@@ -191,129 +121,104 @@
 			$newfilename=rand().time().'.'.$conve_ext;
 			$destination="listing/$newfilename";
 			$feedback=['error'=>'','status'=>''];
-			
-			 echo "<pre>";
-			 print_r($filename);
-			 echo "</pre>";
-			// echo "<pre>";
-			// print_r("this is ".$newfilename);
-			// echo "</pre>";
-			
-			// $query="INSERT INTO picture SET picturefile='".$picarray['image']['name'][$i];.',companyID='$id'";
-			// die($query);
-			
-			// foreach ($picarray as $key => $value) {
-			// 	# code...
-			// }
-
-			// if ($conve_ext!='jpeg'  && $conve_ext!='png' && $conve_ext!='jfif' && $conve_ext!='jpg'){
-			// $feedback['error']=$filename." is an unsupported file type, your image must be a jpeg, jfif, png or jpg";
-			// if (!empty($feedback['error'])) {
-			// 	return( $feedback);
-			// 	}
-			// }
-
-			// if ($size>20000000) {
-			// $feedback['error']="File ".$filename." is too large";
-			// if(!empty($feedback['error'])){
-			// 	return $feedback;
-			// 	}
-			// } 
-
-			// if ($acctype=='account') {
-			// move_uploaded_file($tmp,$destination);
-			//$query="INSERT INTO picture SET picturefile='$newfilename',companyID='$id'";
-			// echo "<pre>";
-			// //print_r($filename);
-			// print_r($newfilename);
-			// echo "</pre>";
-			//die($query);
-			// $this->conn->query($query);
-			// $pic_id=$this->conn->insert_id;
-
-			// $query1="INSERT INTO propertype SET category='$catergory',type='$propertype',bedroom='$bedroom'";
-			// $this->conn->query($query1);
-			// $ppty_id=$this->conn->insert_id;
-			
-			// $query2="INSERT INTO availableproperty SET location='$address',price='$price',more_info='$detail',propertypeID='$ppty_id',pictureID='$pic_id',companyID='$id'";
-			// $this->conn->query($query2);
-
-			// $feedback['status']="That was successfully";
-			// return $feedback;
-			// }
-
-
-			// echo("<pre>");
-			// print_r($destination);
-			// echo("</pre>");
 
 			
-			// foreach ($picarray as $key => $value) {
-			// 	foreach ($value as $key1 => $val) {
-			// 		echo("<pre>");
-			// 		print_r($val[$i]);
-			// 		echo("</pre>");
-			// 		$type=$val
-			// 	}
-				
-			// }
-		}
-		die("total pic name is".$pictotal);
+			if ($conve_ext!='jpeg'  && $conve_ext!='png' && $conve_ext!='jfif' && $conve_ext!='jpg'){
+				$feedback['error']=$filename." is an unsupported file type, your image must be a jpeg, jfif, png or jpg";
+				if (!empty($feedback['error'])) {
+					return( $feedback);
+				}
+			}
 
-		$type=$picarray['image']['type'];
-		$tmp=$picarray['image']['tmp_name'];
-		$size=$picarray['image']['size'];
-		$filename=$picarray['image']['name'];
-		$extension=pathinfo($filename,PATHINFO_EXTENSION);
-		$conve_ext=strtolower($extension);
-		$newfilename=rand().time().'.'.$conve_ext;
-		$destination="listing/$newfilename";
+			if ($size>20000000) {
+				$feedback['error']="File ".$filename." is too large";
+				if(!empty($feedback['error'])){
+					return $feedback;
+				}
+			}
+			
+			if ($acctype=='account') {
+				move_uploaded_file($tmp,$destination);
+				$query="INSERT INTO picture SET picturefile='$newfilename',companyID='$id'";
+				$this->conn->query($query);
+				$pic_idd=$this->conn->insert_id;
+			}
 		
-		if ($conve_ext!='jpeg' && $conve_ext!='png' && $conve_ext!='gif' && $conve_ext!='jpg'){
-			$feedback['error']="Unsupported file";
-			return $feedback;
-		}
-		if ($size>20000000) {
-			$feedback['error']="File too large";
-			return $feedback;
-		} 
-			
-		if ($acctype=='account') {
-			move_uploaded_file($tmp,$destination);
-			$query="INSERT INTO picture SET picturefile='$newfilename',companyID='$id'";
-			$this->conn->query($query);
-			$pic_id=$this->conn->insert_id;
-
-			$query1="INSERT INTO propertype SET category='$catergory',type='$propertype',bedroom='$bedroom'";
-			$this->conn->query($query1);
-			$ppty_id=$this->conn->insert_id;
-			
-			$query2="INSERT INTO availableproperty SET location='$address',price='$price',more_info='$detail',propertypeID='$ppty_id',pictureID='$pic_id',companyID='$id'";
-			$this->conn->query($query2);
-
-			$feedback['status']="That was successfully";
-			return $feedback;
-		}
 			if ($acctype=='individual') {
 				move_uploaded_file($tmp,$destination);
 				$query="INSERT INTO picture SET picturefile='$newfilename',individualID='$id'";
 				$this->conn->query($query);
 				$pic_id=$this->conn->insert_id;
-
-				$query1="INSERT INTO propertype SET category='$catergory',type='$propertype',bedroom='$bedroom'";
-				$this->conn->query($query1);
-				$ppty_id=$this->conn->insert_id;
-				
-				$query2="INSERT INTO availableproperty SET location='$address',price='$price',more_info='$detail',propertypeid='$ppty_id',pictureID='$pic_id',individualID='$id'";
-				$this->conn->query($query2);
-
-				$feedback['status']="That was successfully";
-				return $feedback;
-
 			}
 
+
 		}
-		function displayUserListing($acctype,$id){
+		if ($acctype=='account') {
+			$query1="INSERT INTO propertype SET category='$catergory',type='$propertype',bedroom='$bedroom'";
+			$this->conn->query($query1);
+			$ppty_idd=$this->conn->insert_id;
+			
+			$query2="INSERT INTO availableproperty SET location='$address',price='$price',more_info='$detail',propertypeID='$ppty_idd',pictureID='$pic_idd',companyID='$id',totalPicUpload='$pictotal' ";
+			$this->conn->query($query2);
+
+			
+
+			$feedback['status']="property successfully uploaded";
+			return $feedback;
+		}
+
+		if ($acctype=='individual') {
+			$query1="INSERT INTO propertype SET category='$catergory',type='$propertype',bedroom='$bedroom'";
+			$this->conn->query($query1);
+			$ppty_id=$this->conn->insert_id;
+			
+			$query2="INSERT INTO availableproperty SET location='$address',price='$price',more_info='$detail',propertypeid='$ppty_id',pictureID='$pic_id',individualID='$id',totalPicUpload='$pictotal'";
+			$this->conn->query($query2);
+
+			$feedback['status']="property successfully uploaded";
+			return $feedback;
+
+		}
+	}
+
+		public function displayAllImgUploaded($id){
+			$query="SELECT totalPicUpload FROM availableproperty WHERE pictureID='$id' ";
+			$output=$this->conn->query($query);
+			if ($this->conn->error) {
+				die( "<h3 style=\"color:red;text-align:center;\">Encounter error while fetching information, please try again Later !</h3><p style=\"text-align:center;\"><a href=\"$this->url\">Go Back</a></p>");
+			}
+			$array=$output->fetch_assoc();
+			$value=$array['totalPicUpload'];
+
+			if ($value!='') {
+				if ($value>1){
+					$offset=$id-$value;
+				}else{
+					$offset=$id-1;
+					}
+				// echo $offset;
+				// die();
+				
+				
+				$query1="SELECT picturefile FROM picture LIMIT $value OFFSET $offset ";//$offset
+								
+				$output1=$this->conn->query($query1);
+				if ($this->conn->error) {
+					die( "<h3 style=\"color:red;text-align:center;\">Encounter error while fetching information, please try again Later !</h3><p style=\"text-align:center;\"><a href=\"$this->url\">Go Back</a></p>");
+				}
+								
+				$array1=[];
+				while ($get=$output1->fetch_assoc()) {
+					$array1[]=$get;
+				}
+				return $array1;
+			}else{
+				header("Location:listing.php");
+			}
+			
+		}
+		
+		public function displayUserListing($acctype,$id){
 			if ($acctype=='individual') {
 				$query="SELECT * FROM availableproperty JOIN propertype ON availableproperty.propertypeID=propertype.propertypeID JOIN picture ON availableproperty.pictureID=picture.pictureID WHERE picture.individualID='$id'";
 				$result=$this->conn->query($query);
@@ -333,26 +238,34 @@
 
 		}
 
-		function displayOldValue($acctype,$querystring,$posterid){
+		public function displayOldValue($acctype,$querystring,$posterid){
 			if ($acctype=='individual') {
 				$query="SELECT * FROM availableproperty JOIN propertype ON availableproperty.propertypeID=propertype.propertypeID JOIN picture ON availableproperty.pictureID=picture.pictureID WHERE propertype.propertypeID='$querystring' AND availableproperty.individualID = '$posterid'";
-						$res=$this->conn->query($query);
-						if ($res->num_rows>0) {
-							$val=$res->fetch_assoc();
-							return $val;
-							}
+					
+					$res=$this->conn->query($query);
+					if ($this->conn->error) {
+						die( "<h3 style=\"color:red;text-align:center;\">There is a connection error, contact the web assistant center !</h3><p style=\"text-align:center;\"><a href=\"$this->url\">Go Back</a></p>");
+					}
+					if ($res->num_rows>0) {
+						$val=$res->fetch_assoc();
+						return $val;
+					}
 			}
 			if ($acctype=='account') {
 				$query="SELECT * FROM availableproperty JOIN propertype ON availableproperty.propertypeID=propertype.propertypeID JOIN picture ON availableproperty.pictureID=picture.pictureID WHERE propertype.propertypeID='$querystring' AND availableproperty.companyID = '$posterid'";
-						$res=$this->conn->query($query);
-						if ($res->num_rows>0) {
-							$val=$res->fetch_assoc();
-							return $val;
-							}
+					
+					$res=$this->conn->query($query);
+					if ($this->conn->error) {
+						die( "<h3 style=\"color:red;text-align:center;\">There is a connection error, contact the web assistant center !</h3><p style=\"text-align:center;\"><a href=\"$this->url\">Go Back</a></p>");
+						}
+					if ($res->num_rows>0) {
+						$val=$res->fetch_assoc();
+						return $val;
+						}
 			}
 		}
 
-		function editDisplayListing($form,$picarray,$avaid,$pptyid,$picid,$oldfilename){
+		public function editDisplayListing($form,$picarray,$avaid,$pptyid,$picid,$oldfilename){
 		$catergory=$form['category'];
 		$propertype=$form['propertype'];
 		$bedroom=$form['bedroom'];
@@ -386,18 +299,26 @@
 		}
 			$query2="UPDATE availableproperty SET location='$address',price='$price',more_info='$detail' WHERE availablepptyID='$avaid'";
 			$this->conn->query($query2);
+			if ($this->conn->error) {
+				die( "<h3 style=\"color:red;text-align:center;\">There is a connection error, contact the web assistant center !</h3><p style=\"text-align:center;\"><a href=\"$this->url\">Go Back</a></p>");
+						}
 
 			$query1="UPDATE propertype SET category='$catergory',type='$propertype',bedroom='$bedroom' WHERE propertypeID='$pptyid'";
 			$this->conn->query($query1);
+			if ($this->conn->error) {
+				die( "<h3 style=\"color:red;text-align:center;\">There is a connection error, contact the web assistant center !</h3><p style=\"text-align:center;\"><a href=\"$this->url\">Go Back</a></p>");
+						}
 
 			$query="UPDATE picture SET picturefile='$newfilename' WHERE pictureID='$picid'";
-			$this->conn->query($query);
+			$this->conn->query($query);if ($this->conn->error) {
+				die( "<h3 style=\"color:red;text-align:center;\">There is a connection error, contact the web assistant center !</h3><p style=\"text-align:center;\"><a href=\"$this->url\">Go Back</a></p>");
+						}
 
-			$feedback['status']="That was Successfully !";
+			$feedback['status']="Successful !";
 			return $feedback;
 		}
 
-			function profilepic($session,$img,$id){
+			public function profilepic($session,$img,$id){
 			$type=$img['profilepic']['type'];
 			$tmp=$img['profilepic']['tmp_name'];
 			$size=$img['profilepic']['size'];
@@ -425,7 +346,7 @@
 					$ress=$this->conn->query($query);
 					
 					if ($this->conn->error) {
-						die("Encounter error while trying to change your profile picture, please try again !");
+					die( "<h3 style=\"color:red;text-align:center;\">Encounter error while trying to change your profile picture, please try again !</h3><p style=\"text-align:center;\"><a href=\"$this->url\">Go Back</a></p>");
 					}
 				}
 
@@ -433,41 +354,12 @@
 				$query="UPDATE individual SET profilepic='$newfilename' WHERE ID='$id'";
 				
 				$ress=$this->conn->query($query);
-			
-				if ($this->conn->error) {
-					die("Encounter error while trying to change your profile picture, please try again !");
-					}
-				}
 
-			if ($session=='prof') {
-				$query="UPDATE professional SET profilepic='$newfilename' WHERE ID='$id'";
-				
-				$ress=$this->conn->query($query);
-			
 				if ($this->conn->error) {
-					die("Encounter error while trying to change your profile picture, please try again !");
-					}
-			}
-
-			if ($session=='nysc' || $session=='placement') {
-				$query="UPDATE user_stu SET profilepic='$newfilename' WHERE userID='$id'";
-				
-				$ress=$this->conn->query($query);
-			
-				if ($this->conn->error) {
-					die("Encounter error while trying to change your profile picture, please try again !");
+					die( "<h3 style=\"color:red;text-align:center;\">Encounter error while trying to change your profile picture, please try again !</h3><p style=\"text-align:center;\"><a href=\"$this->url\">Go Back</a></p>");
 					}
 				}
-	
-			if ($session=='client') {
-				$query="UPDATE client SET profilepic='$newfilename' WHERE clientID='$id'";
-				
-				$ress=$this->conn->query($query);
 			
-				if ($this->conn->error) {
-					die("Encounter error while trying to change your profile picture, please try again !");
-					}
-				}
 				$feedback['status']='Picture uploaded successfully !';
 				$feedback['picname']=$newfilename;
 				return $feedback;
@@ -475,7 +367,7 @@
 			
 			
 
-		function editprofit($session,$form,$id){
+		function editprofile($session,$form,$id){
 			$name=$form['name'];
 			$address=$form['address'];
 			$phoneno=$form['phoneno'];
@@ -485,9 +377,9 @@
 		if ($session=='account') {
 			$query="UPDATE realestatecompany SET name='$name',address='$address',phonenumber='$phoneno',email='$email',bio='$bio' WHERE ID='$id'";
 			$res=$this->conn->query($query);
-			if ($this->conn->error) {
-				die("Encounter error while saving your information, please try again !");
-			}
+				if ($this->conn->error) {
+					die( "<h3 style=\"color:red;text-align:center;\">Encounter error updating your information, please try again !</h3><p style=\"text-align:center;\"><a href=\"$this->url\">Go Back</a></p>");
+				}
 			$chk=$this->conn->insert_id;
 			if ($chk=true) {
 				return $chk;
@@ -500,8 +392,8 @@
 			$query="UPDATE individual SET name='$name',address='$address',phonenumber='$phoneno',email='$email',bio='$bio' WHERE ID='$id'";
 			$res=$this->conn->query($query);
 			if ($this->conn->error) {
-				die("Encounter error while saving your information, please try again !");
-			}
+				die( "<h3 style=\"color:red;text-align:center;\">Encounter error updating your information, please try again !</h3><p style=\"text-align:center;\"><a href=\"$this->url\">Go Back</a></p>");
+				}
 			$chk=$this->conn->row_count;
 			if ($chk=true) {
 				return $chk;
@@ -509,133 +401,9 @@
 			return $chk;
 			}
 
-			if ($session=='prof') {
-			$query="UPDATE professional SET name='$name',address='$address',phonenumber='$phoneno',email='$email',bio='$bio' WHERE profID='$id'";
-			$res=$this->conn->query($query);
-			if ($this->conn->error) {
-				die("Encounter error while saving your information, please try again !");
-			}
-			$chk=$this->conn->insert_id;
-			if ($chk=true) {
-				return $chk;
-			}
-			return $chk;
-			}
-
-			if ($session=='nysc' || $session=='placement') {
-			$query="UPDATE user_stu SET name='$name',address='$address',phonenumber='$phoneno',email='$email',bio='$bio' WHERE userID='$id'";
-			$res=$this->conn->query($query);
-			if ($this->conn->error) {
-				die("Encounter error while saving your information, please try again !");
-			}
-			$chk=$this->conn->insert_id;
-			if ($chk=true) {
-				return $chk;
-			}
-			return $chk;
-			}
-
-			if ($session=='client') {
-			$query="UPDATE client SET name='$name',address='$address',phonenumber='$phoneno',email='$email',bio='$bio' WHERE clientID='$id'";
-			$res=$this->conn->query($query);
-			if ($this->conn->error) {
-				die("Encounter error while saving your information, please try again !".$this->conn->error);
-			}
-			$chk=$this->conn->insert_id;
-			if ($chk=true) {
-				return $chk;
-			}
-			return $chk;
-			}
-		}
-
-		function placement($session,$form,$id){
-			$name=$form['name'];
-			$address=$form['add'];
-			$phoneno=$form['phoneno'];
-			$email=$form['email'];
-			$school=$form['school'];
-			$course=$form['course'];			
-			$grade=$form['grade'];
-			$write=$form['write'];
-			$date=$form['date'];
-
-			$query1="UPDATE user_stu SET name='$name',address='$address',phonenumber='$phoneno',email='$email' WHERE userID='$id'";
-			$this->conn->query($query1);
-
-			if ($session=='nysc') {
-
-				$query2="INSERT INTO placement SET user_id='$id',course='$course',grade='$grade',selfwriteup='$write',school='$school',start_date='$date'";
-
-				$res=$this->conn->query($query2);
-				if ($this->conn->error) {
-					die("Encounter error while saving your information, please try again !");
-				}
-				$chk=$this->conn->insert_id;
-		
-				if ($chk>0) {
-					return $chk;
-				}
-				return $chk;
 			
-				}else{
-
-				$query2="INSERT INTO placement SET user_id='$id',course='$course',cgp='$grade',selfwriteup='$write',school='$school',start_date='$date'";
-				$res=$this->conn->query($query2);
-				if ($this->conn->error) {
-					die("Encounter error while saving your information, please try again !");
-				}
-				$chk=$this->conn->insert_id;
-				if ($chk>0) {
-					return $chk;
-				}
-				return $chk;	
-			}
 		}
-
-		function editPlacement($session,$form,$id,$placeid){
-			$name=$form['name'];
-			$address=$form['add'];
-			$phoneno=$form['phoneno'];
-			$email=$form['email'];
-			$school=$form['school'];
-			$course=$form['course'];			
-			$grade=$form['grade'];
-			$write=$form['write'];
-			$date=$form['date'];
-
-			$query1="UPDATE user_stu SET name='$name',address='$address',phonenumber='$phoneno',email='$email' WHERE userID='$id'";
-			$this->conn->query($query1);
-
-			if (!empty($grade)) {
-
-				$query2="UPDATE placement SET user_id='$id',course='$course',grade='$grade',selfwriteup='$write',school='$school',start_date='$date' WHERE placementID='$placeid'";
-
-				$res=$this->conn->query($query2);
-				if ($this->conn->error) {
-					die("Encounter error while saving your information, please try again !");
-				}
-				$chk=$this->conn->insert_id;
-			die("i dey here".$chk);
-				if ($chk>0) {
-					return $chk;
-				}
-				return $chk;
-			
-				}else{
-
-				$query2="UPDATE placement SET user_id='$id',course='$course',grade='$grade',selfwriteup='$write',school='$school',start_date='$date' WHERE placementID='$placeid'";
-				$res=$this->conn->query($query2);
-				if ($this->conn->error) {
-					die("Encounter error while saving your information, please try again !");
-				}
-				$chk=$this->conn->insert_id;
-				if ($chk>0) {
-					return $chk;
-				}
-				return $chk;	
-			}
-		}
+	
 	}
 
 ?>

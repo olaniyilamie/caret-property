@@ -7,22 +7,8 @@ if (!isset($_SESSION['id'])) {
 }
 
 if ($_SESSION['accountype']=='account'||$_SESSION['accountype']=='individual') {
-	$obj=new User;
 	$display=$obj->displayUserListing($_SESSION['accountype'],$_SESSION['id']);
 }
-if ($_SESSION['accountype']=='nysc'||$_SESSION['accountype']=='placement') {
-	include 'App.php';
-	$use= new App;
-	$get=$use->placementContactInfo($_SESSION['id']);
-	
-	
-	
-	echo "<pre>";
-	print_r($get);
-	echo "</pre>";
-	
-}
-
 ?>
 <!DOCTYPE html>
 	<html>
@@ -57,15 +43,15 @@ if ($_SESSION['accountype']=='nysc'||$_SESSION['accountype']=='placement') {
 					</div>
 				</div>
 				<div class="d-flex" id="wrapper">
-				<div class="col-2 border-right" id="sidebar-wrapper" >
+				<div class=" border-right sidebar mx-0" id="sidebar-wrapper " >
 					<?php
 						include 'sidebar.php';
 					?>   
 			    </div>
 				
-				<div class="col-10" id="page-content-wrapper"id="navbarSupportedContent">
+				<div class="col-sm-10 px-1 pl-md-2" id="page-content-wrapper"id="navbarSupportedContent">
 				<div class="row">
-					<div class="col-12 text-center" style="font-size: 12px">
+					<div class="col-12 text-center  newfont">
 						<?php
 							if($_SESSION['bio']!=""){
 								echo $_SESSION['bio'];
@@ -76,6 +62,14 @@ if ($_SESSION['accountype']=='nysc'||$_SESSION['accountype']=='placement') {
 						; }
 						?>
 					</div>
+
+					<?php if(!empty($_GET['status'])){
+						$result=$_GET['status'];
+					?>
+					  <div class="col-12 alert alert-success text-center font-weight-bold"><?php echo $result?></div>
+					<?php
+					   }
+					?>
 					
 					<div class="col-12 mt-4">
 						<?php if(!empty($_GET['result'])){
@@ -97,34 +91,34 @@ if ($_SESSION['accountype']=='nysc'||$_SESSION['accountype']=='placement') {
 							<?php 
 							if ($_SESSION['accountype']=='account'||$_SESSION['accountype']=='individual') {
 							foreach ($display as $key) { ?>
-							<div class="col-4">
-								<div class="card" style="width: 25rem;border: 4px solid rgb(218,218,218);">
-							  <img class="card-img-top" src="listing/<?php echo $key['picturefile']; ?>">
-							  <div class="card-body">
-							    <table class="card-text table-responsive" border="1px">
-							    	<tr>
+							<div class="col-md-4">
+								<div class="card" style="border: 2px solid rgb(218,218,218);">
+							  <img class="card-img-top imging" src="listing/<?php echo $key['picturefile']; ?>" title="<?php echo $key['pictureID']?>" data-availablepptyid="<?php echo $key['availablepptyID']?>">
+							  <div class="card-body fon">
+							    <table class="card-text table-responsive table" border="1px">
+							    	<tr >
 							    		<th colspan="2" class="text-center">Property Details</th>
 							    	</tr>
 							    	<tr>
-							    		<td>Category</td><td><?php echo $key['category']; ?></td>
+							    		<td class="py-0">Category</td><td class="py-0"><?php echo $key['category']; ?></td>
 							    	</tr>
 							    	<tr>
-							    		<td>Type</td><td><?php echo $key['type']; ?></td>
+							    		<td class="py-0">Type</td><td class="py-0"><?php echo $key['type']; ?></td>
 							    	</tr>
 							    	<tr>
-							    		<td>Bedroom</td><td><?php echo $key['bedroom']; ?></td>
+							    		<td class="py-0">Bedroom</td><td class="py-0"><?php echo $key['bedroom']; ?></td>
 							    	</tr>
 							    	<tr>
-							    		<td>Price</td><td>&#8358;<?php echo number_format($key['price'],2); ?></td>
+							    		<td class="py-0">Price</td><td class="py-0">&#8358;<?php echo number_format($key['price'],2); ?></td>
 							    	</tr>
 							    	<tr>
-							    		<td>Other information</td><td><?php echo $key['more_info']; ?></td>
+							    		<td class="py-0">Other information</td><td class="py-0"><?php echo $key['more_info']; ?></td>
 							    	</tr>
 							    	<?php $identity=$key['propertypeID'];
 							    	
 							    	?>
 							    </table>
-							   <div class="offset-7 mt-1 " >
+							   <div class="offset-2 offset-md-6 mt-1 " >
 							   	 <a href="edituserlisting.php?comm=hahalhjk&poiuyt=<?php echo $identity;?>&jik=7hjs8ha3jhj6" class="btn btn-dark">EDIT </a>
 							    <a href="#" class="btn btn-danger">DELETE</a>
 							   </div>
@@ -132,53 +126,7 @@ if ($_SESSION['accountype']=='nysc'||$_SESSION['accountype']=='placement') {
 							</div>
 							</div>
 							<?php } } ?>
-							<?php if ($_SESSION['accountype']=='nysc'||$_SESSION['accountype']=='placement') {?>
-								<div class="col-12" id="editcvdiv">
-								<table class="table table-dark table-center table-hover" border="2px">
-								<caption class="display-inline text-center"><button class="btn-dark btn-block btn-lg" id="editcv">EDIT CV</button> CV view </caption>
-								
-							    	<tr>
-							    		<th colspan="2" class="text-center">Curriculum Vitae (CV)</th>
-							    	</tr>
-							    	<tr>
-							    		<td>Name</td><td><?php echo $get['name']; ?></td>
-							    	</tr>
-							    	<tr>
-							    		<td>Address</td><td><?php echo $get['address']; ?></td>
-							    	</tr>
-							    	<tr>
-							    		<td>Email</td><td><?php echo $get['email']; ?></td>
-							    	</tr>
-									<tr>
-							    		<td>Phone-Number</td><td><?php echo $get['phonenumber']; ?></td>
-							    	</tr>
-							    	<tr>
-							    		<td>Discipline</td><td><?php echo $get['course']; ?></td>
-							    	</tr>
-									<tr>
-							    		<td>Qualification</td><td><?php echo $get['qualification']; ?></td>
-							    	</tr>
-									<?php if (!empty($get['cgp'])){ ?>
-									<tr>
-							    		<td>CGP</td><td><?php echo $get['cgp']; ?></td>
-							    	</tr>
-									<?php } ?>
-
-									<?php if (!empty($get['grade'])){ ?>
-									<tr>
-							    		<td>Grade</td><td><?php echo $get['grade']; ?></td>
-							    	</tr>
-									<?php } ?>
-									<tr>
-							    		<td>School</td><td><?php echo $get['school']; ?></td>
-							    	</tr>
-									<tr>
-							    		<td>Commercement date</td><td><?php echo $get['start_date']; ?></td>
-							    	</tr>
-									</table>
-								</div>
-
-							<?php }?>
+							
 							
 						</div>
 					</div>				
@@ -214,27 +162,12 @@ if ($_SESSION['accountype']=='nysc'||$_SESSION['accountype']=='placement') {
 			
 		});
 
-		$('#ddiv').mouseenter(function(){
-			alert("you are in");
+		$('.imging').click(function(){
+			let lastpptyid=$(this).attr('title');
+			let availablepptyID=$(this).attr('data-availablepptyid');
+			$(window).attr('location','propertyinfo.php?info='+lastpptyid+'&available='+availablepptyID);
 		})
-		$('#savit').click(function(){
-			let one = $this.attr('data-pid');
-			alert(one);
-			// $.ajax({
-			// 	url:'savecvchanges.php',
-			// 	data:{'id':one},
-			// 	dataType:'text',
-			// 	type:'post',
-			// 	success:function(ola){
-			// 		alert(one);
-			// 		//document.getElementById('editcvdiv').innerHTML=ola;
-			// 	},
-			// 	error:function(err){
-			// 		document.write(err)
-			// 	}
-			// })
-			
-		})
+		
 	})
 
 		</script>

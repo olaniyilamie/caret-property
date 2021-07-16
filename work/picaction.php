@@ -3,7 +3,6 @@
 			header("index.php");
 		}
 	if ($_POST||$_FILES) {
-		
 		require 'User.php';
 		$pic=new User;
 		$thank=$pic->uploadListing($_FILES,$_SESSION['id'],$_SESSION['accountype'],$_POST);
@@ -14,7 +13,7 @@
 			header("Location:advertise.php?error=".$thank['error']);
 			
 		}if ($thank['status']!="") {
-			header("Location:advertise.php?status=".$thank['status']);
+			header("Location:profile.php?status=".$thank['status']);
 		}
 		
 	}

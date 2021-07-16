@@ -25,14 +25,9 @@ if (!isset($_SESSION['id'])) {
 				?>
 				<div class="row" id="profilemag">
 					<div class="col-12" id="profilewrite">
-						<div class="row">
-							<div class="col-4"></div>
-							<div class="col-4 text-center mt-5 pt-5">
-								<img src="../image/emoji7.png" width="150px" class="mt-5 pt-4"><br>
-								<button class="btn btn-dark btn-sm px-5"><a href="profilepic.php" class="textcol">change picture</a></button>
-							</div>
-							<div class="col-4"></div>
-						</div>
+						<?php
+							include 'profilepicnav.php';
+						?>
 					</div>
 				</div>
 
@@ -44,23 +39,15 @@ if (!isset($_SESSION['id'])) {
 					</div>
 				</div>
 				<div class="d-flex" id="wrapper">
-				<div class="col-2 border-right" id="sidebar-wrapper" >
+				<div class=" border-right" id="sidebar-wrapper" >
 					<?php
 						include 'sidebar.php';
 					?>    
 				</div>
 				
-				<div class="col-10 adborder" id="page-content-wrapper"id="navbarSupportedContent">
-				<form action="picaction.php" method="POST" enctype="multipart/form-data">
+				<div class="col-sm-10 adborder" id="page-content-wrapper"id="navbarSupportedContent">
 				<div class="row mt-3 py-3  " >
-					<?php if(!empty($_GET['status'])){
-							  $result=$_GET['status'];
-							  ?>
-							  <div class="col-12 alert alert-success text-center font-weight-bold"><?php echo $result?></div>
-							  <?php
-							   }
-							   ?>
-
+					
 					<?php if(!empty($_GET['error'])){
 							  $result=$_GET['error'];
 							  ?>
@@ -76,13 +63,16 @@ if (!isset($_SESSION['id'])) {
 						}?>
 					&nbsp; FILL THIS FORM TO SHOW YOUR PROPERTY TO THE WORLD</h5>
 					</div>
-
+				</div>
+					
+				<form action="picaction.php" method="POST" enctype="multipart/form-data">
+				<div class="row mt-3">
 					<div class="col-md-4">
 						<select class="form-control btn-outline text-center" name="category">
 							<option >Select Category</option>
-							<option name="cat" value="rental">Rental</option>
-							<option name="cat" value="sale">Sales</option>
-							<option name="cat" value="short-let">Short-Let</option>
+							<option  value="rental">Rental</option>
+							<option  value="sale">Sales</option>
+							<option  value="short-let">Short-Let</option>
 						</select>
 					</div>
 					<div class="col-md-4">
@@ -106,41 +96,41 @@ if (!isset($_SESSION['id'])) {
 					</div>
 				</div>
 
-					<div class="row mt-3">
-						<div class="col-md-4 mx-0 ">
-							<p class="disline">Select Property Image, if more than one select together  </p>
-							<input type="file" name="image[]" class=" btn btn-outline" id="magdis" multiple="" required="">	
-						</div>
-						<div class="col-md-4">
-							<label for="price">Price <span class="red">*</span> </label>
-							<input type="number" name="price" class="form-control btn-outline" id="price" required="">
-						</div>
-						<div class="col-md-4">
-							<label for="address">Address <span class="red">*</span> </label>
-							<input type="text" name="address" class="form-control btn-outline" id="price" required="">
-						</div>
+				<div class="row mt-3">
+					<div class="col-md-4 mx-0 ">
+						<p class="disline">Select Property Image, if more than one select together  </p>
+						<input type="file" name="image[]" class=" btn btn-outline" id="magdis" multiple="" required="">	
 					</div>
-					<div class="row">
-						<div class="col-12">
-							<label for="det">Details <span class="red">*</span> </label>
-							<textarea name="detail" class="form-control btn-outline" id="det" required=""></textarea>
-						</div>
-						<div class="col-12 my-2" id="showimg">
-							<button type="submit" class="btn btn-dark btn-block mt-2">Upload</button>
-						</div>
+					<div class="col-md-4">
+						<label for="price">Price <span class="red">*</span> </label>
+						<input type="number" name="price" class="form-control btn-outline" id="price" required="">
 					</div>
-						
-					</form>
-					</div>	
-				</div>
-
+					<div class="col-md-4">
+						<label for="address">Address <span class="red">*</span> </label>
+						<input type="text" name="address" class="form-control btn-outline" id="price" required="">
+					</div>
 				</div>
 			
-				
+				<div class="row">
+					<div class="col-12">
+						<label for="det">Details <span class="red">*</span> </label>
+						<textarea name="detail" class="form-control btn-outline" id="det" required=""></textarea>
+					</div>
+					<div class="col-12 my-2" id="showimg">
+						<button type="submit" class="btn btn-dark btn-block mt-2">Upload</button>
+					</div>
+				</div>
+			
+				</form>
+			</div>	
+			</div>
+
 				<?php require("footer.php"); ?>
 			</div>
 
 			 
-
+			<script src="../js/jquery-3.5.1.min.js"></script>
+			<script src="../js/popper.min.js"></script>
+			<script src="../js/bootstrap.min.js"></script>
 		</body>
 	</html>

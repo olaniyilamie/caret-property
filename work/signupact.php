@@ -9,7 +9,7 @@
 		if ($move>0) {
 			header("Location:loginpae.php?succmsg=You have successfully registered ! Please login with your username and password");
 		}else{
-			header("Location:signup.php?msg=Please try again! Email already in use");
+			header("Location:signup.php?msg=Please try again! Email or Username already in use");
 		}
 	}else{
 		header("Location:signup.php?msg=you must register");

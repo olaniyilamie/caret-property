@@ -37,13 +37,13 @@ if (!isset($_SESSION['id'])) {
 					</div>
 				</div>
 				<div class="d-flex" id="wrapper">
-				<div class="col-2 border-right" id="sidebar-wrapper" >
+				<div class="border-right" id="sidebar-wrapper" >
 					<?php
 						include 'sidebar.php';
 					?>       
 				</div>
 				
-				<div class="col-10" id="page-content-wrapper"id="navbarSupportedContent">
+				<div class="col-sm-10" id="page-content-wrapper"id="navbarSupportedContent">
 				<div class="row">
 					<div class="col-12 text-center" style="font-size: 12px">
 						<?php
@@ -91,7 +91,9 @@ if (!isset($_SESSION['id'])) {
 				<?php require("footer.php"); ?>
 			</div>
 
-			 
+			<script src="../js/jquery-3.5.1.min.js"></script>
+			<script src="../js/popper.min.js"></script>
+			<script src="../js/bootstrap.min.js"></script>
 
 		</body>
 	</html>

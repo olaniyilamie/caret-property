@@ -36,21 +36,15 @@
 							<p class="d-inline font-weight-bold mr-2">Select Account Type</p>
 						
 							<input type="radio" name="company" value="account" class="ml-2">
-							<label>Real Estate Company/Registered Surveyor </label>
+							<label>Company </label>
 							
 							<input type="radio" name="company" value="individual" class="ml-2">
 							<label>Individual </label>
 							
-							<input type="radio" name="company" value="nysc" class="ml-2">
-							<label>NYSC Candidate</label>
-							
-							<input type="radio" name="company" value="placement" class="ml-2">
-							<label>IT Student </label>
-							
 							<!-- <input type="radio" name="company" value="client"><label>Prospecive Client </label> -->
-							<input type="text" name="name" placeholder="Enter your Name" class="form-control notcoy" required="">
+							<input type="text" name="name1" placeholder="Enter your Name" class="form-control notcoy" required="">
 
-							<input type="text" name="name" placeholder="Company Name" class="form-control mb-3 coy" required="" style="display: none">
+							<input type="text" name="name" placeholder="Company Name" class="form-control mb-3 coy" style="display: none">
 							<label style="display: none" class="coy">Is the company registered ?</label><br>
 							
 							<input type="radio" name="reg" value="reg" class="coy mb-3" style="display: none">
@@ -60,12 +54,32 @@
 							<label style="display: none" class="coy">NO</label>
 							
 							<input type="number" name="phoneno" placeholder="Phone Number" class="form-control mb-3" required="">
-							<input type="text" name="address" placeholder="Address" class="form-control mb-3 notcoy" required="" >
-							<input type="text" name="address" placeholder="Office Address" class="form-control mb-3 coy" required="" style="display: none">
+							<input type="text" name="address1" placeholder="Address" class="form-control mb-3 notcoy" required="" >
+							<input type="text" name="address" placeholder="Office Address" class="form-control mb-3 coy" style="display: none">
 							<input type="mail" name="mail" placeholder="Email" class="form-control mb-3" required="">
 							<input type="text" name="username" placeholder="Choose a Username" class="form-control mb-3" required="">
-							<input type="password" name="userpass" placeholder="password" class="form-control mb-3" required="">
-							<input type="password" name="userpass2" placeholder="password" class="form-control mb-3" required="">
+						</div>
+						<div class="col-12">
+							<div class="row">
+								<div class="col-10">
+									<input type="password" name="userpass" placeholder="Password" class="form-control mb-3" required="" id="passwrd1" autocomplete="off">
+								</div>
+								<div class="col-2 text-right">
+									<input type="checkbox" name="hidepwd" id="hide1">
+									<label for="hide1" id="hidee1">show</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="row">
+								<div class="col-10">
+									<input type="password" name="userpass2" placeholder="Confirm password" class="form-control mb-3" required="" id="passwrd2" autocomplete="off">
+								</div>
+								<div class="col-2 text-right">
+									<input type="checkbox" name="hidepwd2" id="hide2">
+									<label for="hide2" id="hidee2">show</label>
+								</div>
+							</div>
 						</div>
 						<div class="col-12 mt-2">
 							<button type="submit" class="btn-sm btn-block btn-dark">REGISTER</button>
@@ -92,12 +106,51 @@
 					$('input[type="radio"]').click(function(){
 						if ($("input[name='company']:checked"). val()=='account'){
 							$(".coy").show();
+							$(".coy").attr('required',true);
 							$(".notcoy").hide();
+							$(".notcoy").attr('required',false)
 						}else{
 							$(".coy").hide();
+							$(".coy").attr('required',false);
 							$(".notcoy").show();
+							$(".notcoy").attr('required',true)
 						}
 					})
+
+					$('input[type="checkbox"]').click(function(){
+						if ($("input[name='hidepwd']:checked")){
+							document.getElementById('passwrd1').type= 'text';
+							document.getElementById('hidee1').innerHTML= 'hide';
+							//$('#hidee1').html('hide');
+						 }
+					})
+
+					$('input[type="checkbox"]').click(function(){
+						if ($("input[name='hidepwd']").is(":checked")==false){
+							document.getElementById('hidee1').innerHTML= 'show';
+							document.getElementById('passwrd1').type= 'password';
+							
+						}
+
+					})
+
+					$('input[type="checkbox"]').click(function(){
+						if ($("input[name='hidepwd2']:checked")){
+							document.getElementById('passwrd2').type= 'text';
+							document.getElementById('hidee2').innerHTML= 'hide';
+							//$('#hidee1').html('hide');
+						 }
+					})
+					
+					$('input[type="checkbox"]').click(function(){
+						if ($("input[name='hidepwd2']").is(":checked")==false){
+							document.getElementById('hidee2').innerHTML= 'show';
+							document.getElementById('passwrd2').type= 'password';
+							
+						}
+
+					})
+
 				})
 			</script>
 

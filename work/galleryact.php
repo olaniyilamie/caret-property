@@ -1,6 +1,6 @@
 <?php
-	// include 'App.php';
-	// $info= new App;
+	include 'App.php';
+	$info= new App;
 
-	// $detail=$info->gallery();
+	$detail=$info->gallery();
 ?>

@@ -1,13 +1,16 @@
 <?php
+include 'User.php';
+$cause_session=new User;
 include 'App.php';
 $index=new App;
 $list=$index->displayListing();
+
 
 $gall=$index->indexgallery();
 
 ?>
 <!DOCTYPE html>
-	<html>
+	<html lang="en">
 		<head>
 			<title>PRATICAL</title>
 			<meta charset="utf-8">
@@ -44,7 +47,7 @@ $gall=$index->indexgallery();
 								<div class="row">
 									<button class="col-4 btn btn-outline-light px-md-5 form-control" type="button" id="rentid" value="rental">RENTAL</button>
 									<button class="col-4 btn btn-outline-light px-md-5 form-control" type="button" id="saleid" value="sale">SALE</button>
-									<button class="col-4 btn btn-outline-light px-md-5 form-control" type="button" id="sletid" value="short-let">SHORT-LET</button>
+									<button class="col-4 btn btn-outline-light px-md-4 form-control" type="button" id="sletid" value="short-let">SHORT-LET</button>
 								</div>
 							</div>
 						</div>
@@ -104,32 +107,13 @@ $gall=$index->indexgallery();
 					</div>
 				</div>
 				
-				<div class="row mt-md-3">
-					<div class="col-12 text-center alert alert-dark">
-						<h3>LASTEST NEWS</h3>
-					</div>
-					<div class="col-md-6 card">
-						<h4>Lagos State 252 homes in eco-friendly estate in Badagry</h4>
-						<p style="font-size: 22px;">Efforts at reducing the Lagos State’s 5 million housing deficit received a boost at the weekend as the state government commissioned its Public Housing Scheme in Idale, Badagry. <br> The estate, which is a joint venture with Echostone Development consists of 252 two-bedroom terrace bungalows in an eco-friendly environment. </p> <button class="btn dropbg"><a href="https://guardian.ng/property/lagos-gets-252-homes-in-first-eco-friendly-estate-in-badagry/" target="_blank">READ MORE</a></button>
-					</div>
-					<div class="col-md-6 ">
-						<img src="../image/news1.jpg" alt="picture showing the eco-friendly estate in Badagry" class="img-fluid">
-					</div>
-					<div class="col-6">
-						<img src="">
-					</div>
-					<div class="col-6">
-								
-					</div>
-				</div>
-
 				<div class="row">
 					<div class="col-12 text-center">
 						<h3 class="alert alert-dark">GALLERY</h3>
 					</div>
 					<?php foreach ($gall as $value) { ?>
 						<div class="col-md-3 card">
-							<img src="listing/<?php echo $value['picturefile']?>" class="img-fluid mb-2">
+							<img src="listing/<?php echo $value['picturefile']?>" class="img-fluid mb-2" alt="picture from web gallery" title="picture from web gallery">
 						</div>
 					<?php } ?>
 					<div class=" col-12 text-center">
@@ -141,7 +125,7 @@ $gall=$index->indexgallery();
 					<div class="modal-dialog" role="document">
 				    	<div class="modal-content">
 				    		<div class="modal-header">
-				        		<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+				        		<h5 class="modal-title" id="exampleModalLabel"><!-- Modal title --></h5>
 				        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				          			<span aria-hidden="true">&times;</span>
 				        		</button>
@@ -196,6 +180,9 @@ $gall=$index->indexgallery();
 							$('#show').show();
 							document.getElementById('catname').innerHTML='PROPERTY AVAILABLE FOR RENT';
 							document.getElementById('show').innerHTML=cat;
+							if (cat=="") {
+								document.getElementById('show').innerHTML = '<p style="color:red;">No property available for rent at the moment ! check back later.</p>';
+							}
 						},
 						error:function(error){
 							document.write(error);
@@ -215,6 +202,9 @@ $gall=$index->indexgallery();
 							$('#show').show();
 							document.getElementById('catname').innerHTML='PROPERTIES AVAILABLE FOR SALE';
 							document.getElementById('show').innerHTML=cat;
+							if (cat=="") {
+								document.getElementById('show').innerHTML = '<p style="color:red;">No property available for sales at the moment ! check back later.</p>';
+							}
 						},
 						error:function(error){
 							document.write(error);
@@ -234,6 +224,9 @@ $gall=$index->indexgallery();
 							$('#show').show();
 							document.getElementById('catname').innerHTML='PROPERTIES AVAILABLE FOR SHORT-LET';
 							document.getElementById('show').innerHTML=cat;
+							if (cat=="") {
+								document.getElementById('show').innerHTML = '<p style="color:red;">No property available for short-let at the moment ! check back later.</p>';
+							}
 						},
 						error:function(error){
 							document.write(error);
@@ -286,6 +279,12 @@ $gall=$index->indexgallery();
 						error:function(error){
 							console.log(error);
 						}
+					})
+
+					$(document).on('click','.imging',function(){
+						let lastpptyid=$(this).attr('title');
+						let availablepptyID=$(this).attr('data-availablepptyid');
+						$(window).attr('location','propertyinfo.php?info='+lastpptyid+'&available='+availablepptyID);
 					})
 
 

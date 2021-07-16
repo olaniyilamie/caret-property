@@ -7,7 +7,7 @@
 
 				#bgpic{
 					background-image:url(image/image3.jpeg); 
-					background-size: contain;
+					background-size: 100%;
 					background-repeat: no-repeat;
 					/*min-height: 600px;				*/
 				}
@@ -18,6 +18,9 @@
 				}
 				#b4write {
 				    margin-top: 14em;
+				}
+				.newfont{
+					font-size: 10px;
 				}
 				.icons{
 					font-size: 30px;
@@ -69,7 +72,7 @@
 				}
 
 
-				#search::placeholder{
+				#bud_search::placeholder{
 					color: white !important;
 					font-weight: 600;
 					text-align: center;
@@ -91,4 +94,18 @@
 				#ppty{
 					font-size: 0.5em;
 				}
+			}
+				
+
+				@media all and (max-width:320px){
+				
+				body{
+					font-size: 10px;
 				}
+
+				.newfont{
+					font-size: 8px;
+				}
+				
+
+			}

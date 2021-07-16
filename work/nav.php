@@ -21,11 +21,6 @@
 								    		<a href="listing.php" class="textcol">Listing</a>
 								    	</button>
 								    </li>
-							       	<li class="nav-item ml-2 my-1">
-							        	<button class="nav-link btn btn-sm btn-outline-light px-1" aria-current="page">
-							        		<a href="hire.php" class="textcol">Hire Here</a>
-							        	</button>
-							       	</li>
 							       	<?php
 							       	if (!isset($_SESSION['id'])) {
 							       	?>			         

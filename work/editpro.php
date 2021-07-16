@@ -38,13 +38,13 @@ if (!isset($_SESSION['id'])) {
 					</div>
 				</div>
 				<div class="d-flex" id="wrapper">
-				<div class="col-2 border-right" id="sidebar-wrapper" >
+				<div class=" border-right" id="sidebar-wrapper" >
 					<?php
 						include 'sidebar.php';
 					?>    
 				</div>
 				
-				<div class="col-10" id="page-content-wrapper"id="navbarSupportedContent">
+				<div class="col-sm-10" id="page-content-wrapper"id="navbarSupportedContent">
 				<form action="editorpro.php" method="POST">
 					<?php
 						if (!empty($_GET['feedback'])) {
@@ -104,32 +104,11 @@ if (!isset($_SESSION['id'])) {
 				<?php require("footer.php"); ?>
 			</div>
 
-			<script src=../js/jquery-3.5.1.min.js>
-			</script>
+			<script src="../js/jquery-3.5.1.min.js"></script>
+			<script src="../js/popper.min.js"></script>
+			<script src="../js/bootstrap.min.js"></script>
 			<script type="text/javascript">
-				// $(document).ready(function(){
-				// 	$('#edit_profile').click(function(){
-				// 		var dataneeded1=("<?php echo $_SESSION['accountype']?>");
-				// 		var dataneeded2=("<?php echo $_POST ?>");
-				// 		var dataneeded3=("<?php echo $_SESSION['id']?>");
-				// 		alert(dataneeded1);
-				// 		$.ajax({
-				// 			url:'editorpro.php',
-				// 			type:'post',
-				// 			data:{need:dataneeded},
-				// 			success:function(comein){
-								
-				// 				window.location("mydetail.php");
-				// 			}
-							// error:function(errormg){
-							// 	alert('error');
-							// 	console.log(errormg);
-							// }
-
-				// 		})
-
-				// 	})
-				// })
+				
 			</script>
 		</body>
 	</html>

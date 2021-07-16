@@ -12,7 +12,7 @@
 		<hr class="line">
 	</div>
 	<div class="col-md-7 dropbg textcol">
-		<a href="" class="mr-md-5 textcol"><i class="fas fa-home"></i> Home </a>
+		<a href="index.php" class="mr-md-5 textcol"><i class="fas fa-home"></i> Home </a>
 		<a href="contactus.php" target="_blank" class="mr-md-5 textcol btn"><i class="fas fa-comments"></i> Contact Us</a>
 		<a href="gallery.php" target="_blank" class="mr-md-5 p-0 textcol btn"><i class="fas fa-images"></i> Gallery</a>
 	</div>

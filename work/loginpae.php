@@ -40,28 +40,33 @@ session_start();
 					<div class="col-12">
 						<form action="log.php" method="POST">
 							<h3 class="text-center alert alert-dark">Welcome Back</h3>
-						<div class="col-12 " style="background-color: #fff;color: black" id="logindiv">
+						<div class="col-12 " id="logindiv">
 							<p class="font-weight-bold d-inline mr-5">Select Account Type</p>
 							
-							<label class="ml-2">Real Estate Company / Registered Surveyor</label>
 							<input type="radio" name="company" value="account" class="pptyType">
+							<label class="mr-2">Company</label>
 							
-							<label class="ml-2">Individual </label>
 							<input type="radio" name="company" value="individual"  class="pptyType">
+							<label class="ml-2">Individual </label>
 							
-							<label class="ml-2">NYSC PPA </label>
-							<input type="radio" name="company" value="nysc"  class="pptyType">
 							
-							<label class="ml-2">IT Student</label>
-							<input type="radio" name="company" value="placement"  class="pptyType">
 							<!-- <input type="radio" name="company" value="client"  class="pptyType"><label>Prospecive Client </label> -->
 							<p class="text-danger my-0 text-center pb-3" id="acctInfo"> Select your account type above !</p>
-
+						</div>
+						<div class="col-12">
 							<p class="text-danger my-0" id="username">Your username cannot be empty </p>
 							<input type="text" name="username" placeholder="username" class="form-control mb-3" id="usename" required="">
-							
+						</div>
+						<div class="col-12">
 							<p class="text-danger my-0" id="password">Your password cannot be empty </p>
-							<input type="password" name="password" placeholder="password" class="form-control mb-3" id="pasword" required="">
+							<div class="row">
+								<div class="col-10">
+									<input type="password" name="password" placeholder="password" class="form-control mb-3" id="pasword" required="">
+								</div>
+								<div class="col-2 text-right">
+									<button type="button" class="btn-dark btn-sm" id="showpwd">show </button>
+								</div>
+							</div>
 							
 						</div>
 						<div class="col-12">
@@ -75,7 +80,7 @@ session_start();
 							</div>
 						</div>
 						<div class="col-12 mt-2">
-							<button type="submit" class="btn btn-sm btn-block btn-dark btnlogin" >LOGIN</button>
+							<button type="submit" class="btn btn-sm btn-block btn-dark" id="btnlogin" >LOGIN</button>
 						</div>
 						</form>
 					</div>
@@ -104,27 +109,39 @@ session_start();
 					$('#username').hide();
 					$('#password').hide();
 
-					$('.btnlogin').click(function(){
-						if (($('.pptyType').prop('checked')==false) && ($('#usename').val()=='') && ($('#pasword').val()=='')) {
+					$('#btnlogin').click(function(){
+						if ((document.querySelector('input[name="company"]:checked')== null) && ($('#usename').val()=='') && ($('#pasword').val()=='')) {
 							alert("Please provide all neccessary information");
 								$('#acctInfo').show();
 								$('#username').show();
 								$('#password').show();
 						}
 
-						if (($('.pptyType').prop('checked')==false) && ($('#usename').val()!='') && ($('#pasword').val()!='')){
+						if ((document.querySelector('input[name="company"]:checked')== null) && ($('#usename').val()!='') && ($('#pasword').val()!='')){
 							alert("Please Select your account type");
 						}
 
-						if (($('.pptyType').prop('checked')==true) && ($('#usename').val()=='') && ($('#pasword').val()!='')){
+						if ((document.querySelector('input[name="company"]:checked')!= null) && ($('#usename').val()=='') && ($('#pasword').val()!='')){
 							alert("Your username cannot be empty");
 						}
 
-						if (($('.pptyType').prop('checked')==true) && ($('#usename').val()!='') && ($('#pasword').val()=='')){
+						if ((document.querySelector('input[name="company"]:checked')!= null) && ($('#usename').val()!='') && ($('#pasword').val()=='')){
 							alert("Your password cannot be empty");
 						}
 
 	
+					})
+
+					$('#showpwd').click(function(){
+						//alert($('#showpwd').html());
+						if ($('#showpwd').html()=='show password') {
+							$('#pasword').prop('type','text');
+							$('#showpwd').html('hide password');
+								
+						}else{
+							$('#pasword').prop('type','password');
+							$('#showpwd').html('show password');
+						}
 					})
 					
 				})

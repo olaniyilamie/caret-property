@@ -208,12 +208,12 @@ $_SESSION['pptypicfile']=$result['picturefile'];
 
 					<div class="row mt-3">
 						<div class="col-md-4 mx-0 ">
-							<p class="disline text-danger font-weight-bolder ml-3 pb-1">Please select picture again !</p>
+							<p class="disline text-danger font-weight-bolder ml-3 pb-1">PLEASE SELECT PICTURE AGAIN BEFORE SAVING !</p>
 							<input type="file" name="image" class=" btn btn-outline" id="magdis" multiple="" >
 						</div>
 						<div class="col-md-4">
 							<?php if (!empty($_SESSION['pptypicfile'])){?>
-							<p class="disline text-danger">Uploaded picture</p>
+							<p class="disline text-danger">Sample of Uploaded Picture</p>
 							<img src="listing/<?php echo $_SESSION['pptypicfile'];?>" class="img-fluid">
 							<?php ;} ?>
 						</div>

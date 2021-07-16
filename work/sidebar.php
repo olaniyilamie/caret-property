@@ -2,7 +2,7 @@
  	<h5 class="display-inline" style="font-size: 20px"> <i class="fas fa-house-damage"></i> CARET PROPERTY</h5>
  </div>
 <div class="list-group list-group-flush">
-	<a href="index.php" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+	<a href="profile.php" class="list-group-item list-group-item-action bg-light">Dashboard</a>
 	<a href="mydetail.php" class="list-group-item list-group-item-action bg-light">My detail</a>
 	<a href="editpro.php" class="list-group-item list-group-item-action bg-light">Edit Profile</a>
 	<?php
@@ -42,6 +42,6 @@
 	  	}
 	?>
 	<a href="logout.php" class="list-group-item list-group-item-action bg-light">Logout</a>
-	<a href="signup.php" class="list-group-item list-group-item-action bg-light">Create New Account</a>
+	
 </div>
 

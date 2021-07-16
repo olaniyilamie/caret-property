@@ -1,3 +1,12 @@
+<?php 
+	session_start();
+	if ($_POST) {
+		include_once 'App.php';
+		$app=new App;
+		$app->contactMessage($_POST);
+		
+	}
+?>
 <!DOCTYPE html>
 	<html>
 		<head>
@@ -27,21 +36,44 @@
 					</div>
 					<div class="col-3"></div>
 					<div class="col-md-6">
-						<form>
+						<?php if (!empty($_GET['stat'])){
+							$stat=$_GET['stat'];
+						?>
 							<div class="row">
-							<div class="col-6">
-							First Name <span class="red">*</span> <br><input type="text" name="" class="form-control" required="">
+							<div class="col-12">
+								<h5 class="text-center alert alert-success"><?php echo $stat ?></h5>
 							</div>
-							<div class="col-6">
-							Last Name <span class="red">*</span> <br><input type="text" name="" class="form-control" required="">
+						</div>
+						<?php } ?>
+						<form class="form" action=" " method="POST">
+							<div class="row">
+								<div class="col-md-6">
+									First Name <span class="red">*</span> <br><input type="text" name="fname" class="form-control" required="">
+								</div>
+								<div class="col-md-6">
+									Last Name <span class="red">*</span> <br><input type="text" name="lname" class="form-control" required="">
+								</div>
+								<div class="col-12">
+									Email <span class="red">*</span> <br><input type="email" name="email" class="form-control" required="">
+								</div>
 							</div>
+							<div class="row">
+								<div class="col-12">
+									Subject <span class="red">*</span> <br> 
+									<input type="text" name="subject"  class="form-control" required="">
+								</div>
 							</div>
-							Subject <span class="red">*</span> <br> <input type="text" name=""  class="form-control" required="">
-							Detail <br> <textarea class="form-control">
-								
-							</textarea>
-							<button class="btn-block btn-dark mt-2">SEND</button>
+							<div class="row">
+								<div class="col-12">
+									Detail <br> <textarea class="form-control" name="detail"></textarea>
+								</div>
+							</div>
 
+							<div class="row">
+								<div class="col-12">
+									<button class="btn-block btn-dark mt-2">SEND</button>
+								</div>
+							</div>
 						</form>
 						
 					</div>
@@ -50,7 +82,7 @@
 				<div class="row">
 					<div class="col-12 text-center pt-4">
 						<h3 class="alert alert-dark">CONTACT US <i class="fas fa-phone-square-alt pl-3"></i></h3>
-						<p>Please contact us by phone or email</p>
+						<p>you can also contact us via phone or email</p>
 						<h3>01-23568392</h3>
 						<h3>+234-8023568392</h3>
 						<a href="#">caret.property@gmail.com</a>
@@ -58,8 +90,8 @@
 				</div>
 				<?php require("footer.php"); ?>
 			</div>
-
-						
-						
+			<script src="../js/jquery-3.5.1.min.js"></script>
+			<script src="../js/popper.min.js"></script>
+			<script src="../js/bootstrap.min.js"></script>		
 		</body>
-		</html>
+	</html>

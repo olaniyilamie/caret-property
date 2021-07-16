@@ -1,9 +1,19 @@
-//<?php 
-//session_start();
-//if (!isset($_SESSION['id'])) {
-//	header("Location:index.php");
-//}
- ?>
+<?php 
+	if (!empty($_GET['info'])) {
+		$lastInsertedId=$_GET['info'];
+		$id=$_GET['available'];
+
+		require 'User.php';
+		$user=new User;
+		$output=$user->displayAllImgUploaded($lastInsertedId);
+
+		
+
+		require 'App.php';
+		$app= new App;
+		$output1=$app->eachListingInfo($id);
+		
+?>
 <!DOCTYPE html>
 	<html>
 		<head>
@@ -24,43 +34,99 @@
 					include 'nav.php';
 				?>
 				<div class="row" >
-					<div class="col-4" style="border: 1px solid red">
+					<div class="col-4">
+						<p class="d-none" id="theid"><?php echo $id?></p>
+						<p class="text-danger text-center">click on the picture to get a bigger view</p>
 						<div class="row">
-							<div class="col-4" style="border: 1px solid green;height: 200px">
-								
+							<?php
+								foreach ($output as $key) {	
+							?>
+							<div class="col-md-4  py-3">
+								<img src="listing/<?php echo $key['picturefile']?> " class="img-fluid smallimg">
 							</div>
-							<div class="col-4"style="border: 1px solid green">
-								
+							<?php 
+								} 
+							?>
+						</div>
+						
+						
+					</div>
+					<div class="col-8" >
+						<div class="row justify-content-center">
+							<p class="d-none imgna"><?php echo $_GET['imgname']?></p>
+							<div class="col-md-10 bigimg " ></div>
+						</div>
+						<p class="btn btn-dark btn-sm mt-2" id="backbtn" >GO BACK</p>
+						<div class="row mt-4" id="infoshow">
+							<div class="col-12">
+								<table class="table table-bordered table-striped">
+									<tr>
+										<th colspan="2" class="text-center">Property Details</th>
+									</tr>
+									<tr>
+										<th>Bedroom</th><td class="pl-4"><?php echo $output1['bedroom']?></td>
+									</tr>
+									<tr>
+										<th>Category</th><td class="pl-4"><?php echo $output1['category']?></td>
+									</tr>
+									<tr>
+										<th>Type</th><td class="pl-4"><?php echo $output1['type']?></td>
+									</tr>
+									<tr>
+										<th>Price</th><td class="pl-4"><?php echo $output1['price']?></td>
+									</tr>
+									<tr>
+										<th>Location</th><td class="pl-4"><?php echo $output1['location']?></td>
+									</tr>
+									<tr>
+										<th>Additional information</th><td class="pl-4"><?php echo $output1['more_info']?></td>
+									</tr>
+								</table>
 							</div>
-							<div class="col-4"style="border: 1px solid green">
-								
+							<div class="col-12">
+								<button class="btn btn-block btn-dark btn-sm py-2 mt-3" id="listinfo2">OWNER'S INFORMATION</button>
 							</div>
 						</div>
 					</div>
-					<div class="col-8" style="border: 1px solid blue">
-						<div class="col-md-8 offset-md-2" style="border: 1px solid purple;height: 300px">
-							
-						</div>
-						<div class="col-12" style="border: 1px solid red">
-							
-						</div>
-						<div class="col-12" style="border: 1px solid red">
-							<button class="btn btn-block btn-dark btn-sm">PROPERTY OWNER'S INFORMATION</button>
-						</div>
-					</div>
 				</div>
-				<div class="row" style="display: none;border: 1px solid black;height: 10px" id="onwerInfo">
-					
-				</div>
-
-				
+							
 				
 			
 				
 				<?php require("footer.php"); ?>
 			</div>
 
-			 
+			<script src="../js/jquery-3.5.1.min.js"></script>
+			<script src="../js/popper.min.js"></script>
+			<script src="../js/bootstrap.min.js"></script>
 
+			<script type="text/javascript">
+				$(document).ready(function(){
+
+
+					$('.smallimg').click(function(){
+						let bigimgg=$(this).attr('src');
+						$('.bigimg').html('<img src=' +bigimgg+' class="img-fluid">');
+						
+					})
+
+					$('#listinfo2').click(function(){
+						let availablepptyID =$('#theid').html();
+						$(window).attr('location','propertyuploadedby.php?available='+availablepptyID,'_blank');
+					})
+
+					$('#backbtn').click(function(){
+						window.history.back();
+					})
+
+					
+				}) 
+			</script>
 		</body>
 	</html>
+
+	<?php
+	}else{
+		header("Location:listing.php");
+	}
+	?>

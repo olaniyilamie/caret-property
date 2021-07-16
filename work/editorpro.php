@@ -5,7 +5,7 @@ include 'User.php';
 		header('Location:profile.php');
 	}
 		if ($_POST){
-			$output=$call->editprofit($_SESSION['accountype'],$_POST,$_SESSION['id']);
+			$output=$call->editprofile($_SESSION['accountype'],$_POST,$_SESSION['id']);
 				if ($output) {
 					$_SESSION['name']=$_POST['name'];
 					$_SESSION['address']=$_POST['address'];

@@ -1,11 +1,12 @@
 <?php
 
-include 'App.php';
+include 'User.php';
+$cause_session=new User;
 
+include 'App.php';
 $index=new App;
 
 $list=$index->displayListing();
-
 ?>
 <!DOCTYPE html>
 	<html>
@@ -36,14 +37,13 @@ $list=$index->displayListing();
 					<div class="col-12 px-0">
 						<h3 class="text-center alert alert-dark ">AVAILABLE PROPERTY</h3>
 					</div>
-				
 					<?php foreach ($list as $key) { ?>
-					
-					<div class="card col-3 pb-2" style="width: 18rem;border: 1px solid black" >
-					  <img class="card-img-top" src="listing/<?php echo ($key['picturefile']);?>" height="210px" alt="property img">
-					    <h5 class="card-title text-center alert alert-dark"><?php echo strtoupper($key['category']);?></h5>
+					<div class="card col-md-3 pb-2" style="width: 18rem;border: 1px solid black" >
+						<img class="card-img-top img_allinfo img-fluid" src="listing/<?php echo ($key['picturefile']);?>" alt="property image" title="<?php echo $key['pictureID'] ?>" data-availablepptyid="<?php echo $key['availablepptyID'] ?>">
+					  	<h5 class="card-title text-center alert alert-dark"><?php echo strtoupper($key['category']);?></h5>
 					    <p class="card-text font-weight-bold">Price: &#8358;<?php echo number_format($key['price'],2);?></p>
 					    <p class="card-text font-weight-bold">Property type: <?php echo $key['type'];?></p>
+					    <p style="display:none" id="pptyid"><?php echo $key['pictureID'] ?></p>
 				    	<a href="" data-toggle="modal" data-target="#exampleModal"
 			    	<?php if ($key['individualID']=='') { ?> 	
 				    	data-comp=" <?php echo $key['companyID'];?>" 
@@ -56,13 +56,18 @@ $list=$index->displayListing();
 				
 					<?php		 }			?>
 				</div>
+				<div class="row">
+					<div class="col-md-1 offset-md-11 col-4 offset-8 mt-2" id="backbtn">
+						<p class="btn btn-dark btn-sm">GO BACK</p>
+					</div>
+				</div>
 
 				<!-- Modal -->
 				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+								<h5 class="modal-title" id="exampleModalLabel">CARET PROPERTY</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		           					<span aria-hidden="true">&times;</span>
 				        		</button>
@@ -81,7 +86,7 @@ $list=$index->displayListing();
 			<script src="../js/jquery-3.5.1.min.js"></script>
 			<script src="../js/popper.min.js"></script>
 			<script src="../js/bootstrap.min.js"></script>
-
+			
 			<script type="text/javascript">
 				$(document).ready(function(){
 
@@ -101,6 +106,18 @@ $list=$index->displayListing();
 							console.log(error);
 							}
 						})
+					})
+
+					$('.img_allinfo').click(function(){
+						//let olamide=document.getElementsByClassName('pptyid').innerHTML;
+						let lastpptyid=$(this).attr('title');
+						let imgname=$(this).attr('src');
+						let availablepptyID =$(this).attr("data-availablepptyid");
+						$(window).attr('location','propertyinfo.php?info='+lastpptyid +'&imgname='+imgname +'&available='+availablepptyID);
+					})
+
+					$('#backbtn').click(function(){
+						window.history.back();
 					})
 				})
 			</script>
